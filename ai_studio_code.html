@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verdent - 간단한 말로 제품을 비즈니스로 만드세요</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+            background-color: #05070A;
+            position: relative; /* 별똥별 효과를 위한 기준점 */
+            overflow-x: hidden;
+        }
+        
+        /* 세련된 다크 테마 배경 그리드 및 네온 오라 효과 */
+        /* 수정: 애니메이션 그라데이션 배경 추가 */
+        .bg-cyber {
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.08) 0%, rgba(5, 7, 10, 0) 50%),
+                radial-gradient(circle at 10% 40%, rgba(6, 182, 212, 0.04) 0%, rgba(5, 7, 10, 0) 40%),
+                radial-gradient(circle at 90% 70%, rgba(16, 185, 129, 0.05) 0%, rgba(5, 7, 10, 0) 45%),
+                linear-gradient(to right, rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+            animation: bg-pan 25s linear infinite;
+        }
+
+        @keyframes bg-pan { 0% { background-position: 0% 0%; } 100% { background-position: 100% 100%; } }
+
+        /* 뷰포인트 진입 애니메이션 스타일 */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                        transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 호버 시 은은한 테두리 네온 효과 */
+        .neon-card {
+            background: rgba(18, 24, 32, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .neon-card:hover {
+            border-color: rgba(16, 185, 129, 0.3);
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.05);
+            transform: translateY(-2px);
+        }
+
+        /* 추가: 별똥별 효과 */
+        .shooting-star {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(-45deg, rgba(16, 185, 129, 1), rgba(16, 185, 129, 0));
+            border-radius: 999px;
+            filter: drop-shadow(0 0 6px rgba(16, 185, 129, 0.7));
+            animation: shooting-star-fall 10s linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes shooting-star-fall {
+            0% {
+                transform: translateX(0) translateY(0);
+                opacity: 1;
+                width: 0;
+            }
+            30% {
+                width: 150px;
+            }
+            100% {
+                transform: translateX(-100vw) translateY(100vh);
+                opacity: 0;
+                width: 150px;
+            }
+        }
+
+        .shooting-star:nth-child(1) {
+            top: 10%;
+            left: 80%;
+            animation-delay: 0s;
+            animation-duration: 8s;
+        }
+        .shooting-star:nth-child(2) {
+            top: 20%;
+            left: 95%;
+            animation-delay: 2.5s;
+            animation-duration: 11s;
+        }
+        .shooting-star:nth-child(3) {
+            top: 5%;
+            left: 60%;
+            animation-delay: 5.2s;
+            animation-duration: 7s;
+        }
+    </style>
+</head>
+<body class="text-gray-200 min-h-screen bg-cyber antialiased">
+    <!-- 추가: 별똥별 효과를 위한 div -->
+    <div class="shooting-stars-container">
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+    </div>
+
+    <!-- 1. GNB Header -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-[#05070A]/80 border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <svg class="w-6 h-6 text-emerald-400" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                </svg>
+                <span class="font-bold text-xl tracking-tight text-white">Verdent</span>
+            </div>
+            <nav class="hidden md:flex items-center space-x-10 text-sm font-medium text-gray-400">
+                <a href="#" class="hover:text-emerald-400 transition">기능</a>
+                <a href="#" class="hover:text-emerald-400 transition">가격</a>
+                <a href="#" class="flex items-center space-x-1 hover:text-emerald-400 transition">
+                    <span>리소스</span>
+                    <span class="text-[10px]">▼</span>
+                </a>
+                <a href="#" class="flex items-center space-x-1 hover:text-emerald-400 transition">
+                    <span>커뮤니티</span>
+                    <span class="text-[10px]">▼</span>
+                </a>
+            </nav>
+            <div class="flex items-center space-x-4 text-sm">
+                <a href="#" class="bg-emerald-500 hover:bg-emerald-600 text-gray-950 font-bold px-5 py-2.5 rounded-full transition shadow-lg shadow-emerald-500/10">다운로드</a>
+                <a href="#" class="border border-white/10 hover:border-white/20 hover:bg-white/5 text-white font-medium px-5 py-2.5 rounded-full transition">로그인</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. Hero Section -->
+    <section class="reveal max-w-6xl mx-auto px-6 pt-24 pb-20 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold leading-[1.15] tracking-tight text-white">
+            간단한 말로 제품을<br>
+            <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-500 bg-clip-text text-transparent">몇 분 만에 비즈니스로 만드세요</span>
+        </h1>
+        <p class="mt-8 text-gray-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+            원하는 것을 Verdent 에 말하기만 하세요. Verdent는 일을 처리하고, 당신은 비즈니스를 운영합니다.
+        </p>
+        <div class="mt-12 flex flex-col items-center justify-center space-y-4">
+            <span class="text-xs text-gray-500 bg-emerald-500/5 px-3 py-1 rounded-full border border-emerald-500/10">기간 한정 무료 체험판</span>
+            <a href="#" class="flex items-center space-x-3 bg-white hover:bg-gray-100 text-gray-950 font-bold px-8 py-4 rounded-xl transition duration-300 shadow-xl shadow-white/5">
+                <span class="text-lg">💻</span>
+                <span>Windows (x64) 다운로드</span>
+            </a>
+        </div>
+
+        <!-- Hero Mockup: Slack & Course Platform Dashboard -->
+        <div class="mt-20 rounded-2xl border border-white/10 bg-[#0B0F15]/80 p-3 shadow-2xl relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-tr from-emerald-500/5 to-cyan-500/5 pointer-events-none"></div>
+            <!-- OS Title Bar -->
+            <div class="flex items-center justify-between px-4 pb-3 border-b border-white/5">
+                <div class="flex items-center space-x-2">
+                    <div class="w-3 h-3 rounded-full bg-red-500/70"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-500/70"></div>
+                </div>
+                <span class="text-xs text-gray-600">Slack-Partner / Online Course Platform</span>
+                <div class="w-12"></div>
+            </div>
+            
+            <!-- Dashboard Content Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 pt-4 text-left min-h-[400px]">
+                <!-- Left: Slack Simulator -->
+                <div class="lg:col-span-5 bg-[#080B0F] border border-white/5 rounded-xl p-5 flex flex-col justify-between">
+                    <div>
+                        <div class="text-xs text-emerald-400 font-semibold mb-3"># Slack-Partner</div>
+                        <div class="space-y-4">
+                            <div class="bg-white/5 p-3 rounded-lg border border-white/5">
+                                <span class="text-[11px] text-gray-500 block mb-1">Manager</span>
+                                <p class="text-xs text-gray-300">Create a modal login and registration interface for the course platform built yesterday, prioritizing Google sign-in.</p>
+                            </div>
+                            <div class="bg-emerald-500/5 p-3 rounded-lg border border-emerald-500/10">
+                                <span class="text-[11px] text-emerald-400 block mb-1">Verdent Agent</span>
+                                <p class="text-xs text-gray-300">Task created: Login/Registration modal.<br>• Google OAuth link established.<br>• Responsive styling applied.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 border-t border-white/5 pt-3 text-[11px] text-gray-500">
+                        ⚡ Verdent is active and monitoring
+                    </div>
+                </div>
+                <!-- Right: Platform Stats -->
+                <div class="lg:col-span-7 bg-[#080B0F] border border-white/5 rounded-xl p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <span class="text-xs font-semibold uppercase text-gray-400">Online Course Platform</span>
+                        <span class="text-[11px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded">Build active</span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-4 mb-6">
+                        <div class="bg-white/5 p-4 rounded-lg border border-white/5">
+                            <span class="text-[10px] text-gray-500 block">Overall Progress</span>
+                            <span class="text-xl font-bold text-white">83%</span>
+                        </div>
+                        <div class="bg-white/5 p-4 rounded-lg border border-white/5">
+                            <span class="text-[10px] text-gray-500 block">Phases Complete</span>
+                            <span class="text-xl font-bold text-white">5 / 6</span>
+                        </div>
+                        <div class="bg-white/5 p-4 rounded-lg border border-white/5">
+                            <span class="text-[10px] text-gray-500 block">Task Complete</span>
+                            <span class="text-xl font-bold text-white">7 / 8</span>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between text-xs p-2.5 bg-white/[0.02] rounded border border-white/5">
+                            <span class="text-gray-300">Phase 1: Foundation</span>
+                            <span class="text-emerald-400">✓ Done</span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs p-2.5 bg-white/[0.02] rounded border border-white/5">
+                            <span class="text-gray-300">Phase 2: Course Management</span>
+                            <span class="text-emerald-400">✓ Done</span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs p-2.5 bg-white/[0.02] rounded border border-white/5">
+                            <span class="text-gray-300">Phase 3: Subscription & Billing</span>
+                            <span class="text-amber-400">● In Progress</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Section: 출시를 위해 설계 (Designed for Launch) -->
+    <section class="reveal max-w-6xl mx-auto px-6 py-24 border-t border-white/5">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-white">출시를 위해 설계</h2>
+            <p class="mt-4 text-gray-400 max-w-2xl mx-auto text-sm leading-relaxed">
+                그저 잘 다듬어진 프론트엔드가 아닙니다. Verdent는 로그인, 데이터 저장, 결제, 관리 도구까지 구축해 완성된 제품을 출시할 수 있게 해줍니다.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Card 1 -->
+            <div class="neon-card rounded-2xl p-8 flex flex-col justify-between">
+                <div>
+                    <span class="text-[11px] text-emerald-400 font-bold uppercase tracking-wider bg-emerald-500/10 px-2.5 py-1 rounded-full">첫날이 곧 출시일</span>
+                    <p class="mt-6 text-gray-400 text-sm leading-relaxed">
+                        이번 주엔 고객 결제를 추가하고, 다음 달엔 관리자 대시보드를 만드세요. Verdent는 <span class="text-white font-medium">프로젝트 전체를 맥락으로 유지</span>하므로, 새 작업도 언제나 그 팀에서 출발합니다.
+                    </p>
+                </div>
+                <div class="mt-10 bg-[#080B0F]/90 border border-white/5 rounded-xl p-4 h-40 flex items-center justify-center text-xs text-gray-600">
+                    <!-- UI Component Simulation -->
+                    <div class="w-full space-y-2 opacity-50">
+                        <div class="h-2 bg-white/10 rounded w-1/3"></div>
+                        <div class="h-8 bg-white/5 rounded"></div>
+                        <div class="h-8 bg-white/5 rounded"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="neon-card rounded-2xl p-8 flex flex-col justify-between">
+                <div>
+                    <span class="text-[11px] text-emerald-400 font-bold uppercase tracking-wider bg-emerald-500/10 px-2.5 py-1 rounded-full">다시 만들 필요 없음</span>
+                    <p class="mt-6 text-gray-400 text-sm leading-relaxed">
+                        일회용 프로토타입이 아닙니다. <span class="text-white font-medium">견고한 기반 위에 구축되어 바로 출시할 수 있는 제품</span>입니다.
+                    </p>
+                </div>
+                <div class="mt-10 bg-[#080B0F]/90 border border-white/5 rounded-xl p-4 h-40 flex items-center justify-center text-xs text-gray-600">
+                    <!-- UI Component Simulation -->
+                    <div class="w-full space-y-2 opacity-50">
+                        <div class="h-2 bg-white/10 rounded w-1/2"></div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="h-10 bg-white/5 rounded"></div>
+                            <div class="h-10 bg-white/5 rounded"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Section: 세부 특징 그리드 (Flow & Model Bases) -->
+    <section class="reveal max-w-6xl mx-auto px-6 py-12">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Left: 시간이 갈수록 당신을 더 잘 압니다 -->
+            <div class="lg:col-span-7 neon-card rounded-2xl p-8">
+                <h3 class="text-xl font-bold text-white">시간이 갈수록 당신을 더 잘 압니다</h3>
+                <p class="mt-4 text-gray-400 text-sm leading-relaxed">
+                    <span class="text-emerald-400 font-medium">Verdent는 당신의 모든 선호</span>를 기억합니다. 함께 일하는 시간이 길어질수록, 당신을 진짜로 이해하는 파트너처럼 느껴집니다.
+                </p>
+                
+                <!-- Flowchart Node Graphic Simulator -->
+                <div class="mt-10 p-4 bg-[#080B0F]/60 border border-white/5 rounded-xl min-h-[220px] flex flex-col justify-center">
+                    <div class="flex flex-col space-y-4 text-[11px] text-gray-400 relative">
+                        <div class="flex items-center space-x-3 bg-white/5 p-2 rounded-lg border border-white/5 w-64">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                            <span>"I really like dark colors because they make things look safe and cool."</span>
+                        </div>
+                        <div class="flex items-center space-x-3 bg-white/5 p-2 rounded-lg border border-white/5 w-48 ml-8">
+                            <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+                            <span>"Prioritize CSS"</span>
+                        </div>
+                        <div class="flex items-center space-x-3 bg-emerald-500/10 p-2 rounded-lg border border-emerald-500/20 w-52 ml-16">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                            <span class="text-white font-medium">MEMORY.md Updated</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: 최고의 모델 기반 -->
+            <div class="lg:col-span-5 neon-card rounded-2xl p-8">
+                <h3 class="text-xl font-bold text-white">최고의 모델 기반</h3>
+                <p class="mt-4 text-gray-400 text-sm leading-relaxed">
+                    Verdent는 <span class="text-emerald-400 font-medium">현존하는 가장 강력한 AI 모델</span>을 기반으로 합니다. 처음부터 더 견고하게, 실제 사용에 바로 투입할 수 있도록 만들어집니다.
+                </p>
+
+                <!-- Custom Logo Showcase Grid -->
+                <div class="mt-10 grid grid-cols-2 gap-4">
+                    <div class="bg-[#080B0F]/80 border border-white/5 p-4 rounded-xl flex items-center space-x-3">
+                        <div class="w-8 h-8 rounded-lg bg-orange-500/10 flex items-center justify-center text-orange-400 text-xs font-bold">O</div>
+                        <div>
+                            <span class="text-xs text-white block">Opus 3.5</span>
+                            <span class="text-[9px] text-gray-500">Anthropic</span>
+                        </div>
+                    </div>
+                    <div class="bg-[#080B0F]/80 border border-white/5 p-4 rounded-xl flex items-center space-x-3">
+                        <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 text-xs font-bold">G</div>
+                        <div>
+                            <span class="text-xs text-white block">GPT-4o / 5</span>
+                            <span class="text-[9px] text-gray-500">OpenAI</span>
+                        </div>
+                    </div>
+                    <div class="bg-[#080B0F]/80 border border-white/5 p-4 rounded-xl flex items-center space-x-3">
+                        <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 text-xs font-bold">G</div>
+                        <div>
+                            <span class="text-xs text-white block">Gemini 2.0</span>
+                            <span class="text-[9px] text-gray-500">Google</span>
+                        </div>
+                    </div>
+                    <div class="bg-[#080B0F]/80 border border-white/5 p-4 rounded-xl flex items-center space-x-3">
+                        <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 text-xs font-bold">K</div>
+                        <div>
+                            <span class="text-xs text-white block">Kimi K2.6</span>
+                            <span class="text-[9px] text-gray-500">Moonshot</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Section: 모든 역할을 혼자 할 필요 없음 -->
+    <section class="reveal max-w-6xl mx-auto px-6 py-24 border-t border-white/5">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-white">모든 역할을 혼자 할 필요 없음</h2>
+            <p class="mt-4 text-gray-400 max-w-2xl mx-auto text-sm leading-relaxed">
+                Verdent 에 목표만 알려주세요. 분해하고, 만들고, 테스트한 뒤 끝나면 돌아옵니다.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Card Left -->
+            <div class="neon-card rounded-2xl p-8">
+                <span class="text-xs text-emerald-400 font-semibold uppercase tracking-wider block mb-4">방법이 아닌 목적을 말하세요</span>
+                <p class="text-gray-400 text-sm leading-relaxed">
+                    Verdent 가 요청을 작업으로 나누고 우선순위를 정해 밀고 나갑니다. <span class="text-white font-medium">AI 를 프로젝트처럼 관리할 필요가 없습니다.</span>
+                </p>
+            </div>
+            <!-- Card Right -->
+            <div class="neon-card rounded-2xl p-8">
+                <span class="text-xs text-emerald-400 font-semibold uppercase tracking-wider block mb-4">중요한 결정에만 당신이 나섭니다</span>
+                <p class="text-gray-400 text-sm leading-relaxed">
+                    Verdent 는 <span class="text-white font-medium">일을 계속 진행합니다.</span> 결정이나 승인이 필요할 때는, 5분마다 던지는 질문이 아니라 결과를 가지고 돌아옵니다.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Section: 책상에 얽매이지 마세요 (Mobile & Desktop Slack Chat mockup) -->
+    <section class="reveal max-w-6xl mx-auto px-6 py-24 border-t border-white/5">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-white">책상에 얽매이지 마세요</h2>
+            <p class="mt-4 text-gray-400 max-w-2xl mx-auto text-sm leading-relaxed">
+                생각이 떠오르면 메시지를 보내세요. 자리를 비워도 작업은 계속됩니다.
+            </p>
+        </div>
+
+        <!-- Banner inside: 떠오르는 것이 있나요? 바로 보내세요 -->
+        <div class="bg-gradient-to-br from-emerald-950/20 to-gray-950 rounded-3xl border border-emerald-500/10 p-8 md:p-12">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <!-- Left Details -->
+                <div class="lg:col-span-5">
+                    <span class="text-emerald-400 font-bold text-xs uppercase tracking-widest block mb-2">떠오르는 것이 있나요? 바로 보내세요</span>
+                    <h3 class="text-2xl font-bold text-white leading-snug">Slack, Telegram.<br>어디서든 Verdent 에 메시지를 보내세요.</h3>
+                    <p class="mt-4 text-gray-400 text-xs leading-relaxed">
+                        아이디어가 떠오른 순간 그대로 보내면 됩니다. 나머지는 Verdent 가 맡습니다.
+                    </p>
+                </div>
+                <!-- Right Simulator Graphic -->
+                <div class="lg:col-span-7 flex items-center justify-center space-x-6">
+                    <!-- Mobile Mockup -->
+                    <div class="w-48 h-80 rounded-[32px] bg-[#080B0F] border-4 border-gray-800 p-3 flex flex-col justify-between shadow-2xl relative">
+                        <div class="w-16 h-4 bg-gray-800 rounded-full mx-auto mb-2"></div> <!-- Notch -->
+                        <div class="flex-1 overflow-y-auto space-y-2 text-[9px] px-1">
+                            <div class="bg-white/5 p-2 rounded-lg text-gray-400">
+                                Build me an online course platform.
+                            </div>
+                            <div class="bg-emerald-500/10 p-2 rounded-lg text-emerald-400">
+                                Starting the build process. Phase 1 active.
+                            </div>
+                        </div>
+                        <div class="h-6 border-t border-white/5 flex items-center px-1 text-[9px] text-gray-600">
+                            Message Verdent...
+                        </div>
+                    </div>
+                    <!-- Desktop Slack Mockup -->
+                    <div class="hidden sm:block flex-1 bg-[#080B0F] border border-white/5 rounded-xl p-4 h-64 text-[10px] text-gray-400 space-y-3">
+                        <div class="border-b border-white/5 pb-2 text-xs text-white flex items-center space-x-2">
+                            <span class="text-emerald-400">#</span>
+                            <span>Slack - Partner</span>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="text-gray-500"><span class="font-bold text-gray-300">Manager</span> Worked for 29s</div>
+                            <div class="bg-white/5 p-2 rounded border border-white/5">
+                                All set — the build is complete after a full pass. Opens at <a href="#" class="text-cyan-400">http://localhost:3000</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. Section: Trust Section (Partner Logos) -->
+    <section class="reveal max-w-6xl mx-auto px-6 py-16 border-t border-white/5 text-center">
+        <span class="text-xs text-gray-500 uppercase tracking-widest block mb-8">신뢰받는 파트너망</span>
+        <div class="flex flex-wrap items-center justify-center gap-12 md:gap-16 opacity-40 grayscale hover:grayscale-0 transition duration-500">
+            <span class="text-lg font-bold tracking-tight text-white">AWS</span>
+            <span class="text-lg font-bold tracking-tight text-white">Google Gemini</span>
+            <span class="text-lg font-bold tracking-tight text-white">Azure</span>
+            <span class="text-lg font-bold tracking-tight text-white">GPT</span>
+            <span class="text-lg font-bold tracking-tight text-white">Claude</span>
+        </div>
+    </section>
+
+    <!-- 8. Section: 사용 사례 (Use Cases) -->
+    <section class="reveal max-w-6xl mx-auto px-6 py-24 border-t border-white/5">
+        <div class="text-center mb-16">
+            <span class="text-xs text-emerald-400 font-semibold tracking-widest uppercase block">사용 사례</span>
+            <h2 class="text-3xl md:text-4xl font-bold text-white mt-3">이미 이런 것들을 만들었습니다</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Case Card 1 -->
+            <div class="neon-card rounded-2xl overflow-hidden flex flex-col justify-between">
+                <!-- Mockup Banner Graphic -->
+                <div class="h-44 bg-gradient-to-br from-purple-950/40 to-[#0B0F15] p-6 flex flex-col justify-between border-b border-white/5">
+                    <span class="text-[10px] text-purple-400 font-semibold tracking-wider block uppercase">The Echo of Cain</span>
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-14 bg-white/5 rounded border border-white/10 flex items-center justify-center text-xs">🛡️</div>
+                        <div class="w-10 h-14 bg-white/5 rounded border border-white/10 flex items-center justify-center text-xs">🗡️</div>
+                        <div class="w-10 h-14 bg-white/5 rounded border border-white/10 flex items-center justify-center text-xs">🧙‍♂️</div>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h4 class="font-bold text-white text-base leading-snug">From Game Concept to Playable Build in 12 Hours</h4>
+                    <p class="mt-3 text-xs text-gray-400 leading-relaxed">
+                        A solo developer describes a dark gothic Roguelike to Verdent and gets a playable game — 21 sprites, 52 custom mechanics.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Case Card 2 -->
+            <div class="neon-card rounded-2xl overflow-hidden flex flex-col justify-between">
+                <!-- Mockup Banner Graphic -->
+                <div class="h-44 bg-gradient-to-br from-emerald-950/40 to-[#0B0F15] p-6 flex flex-col justify-between border-b border-white/5">
+                    <span class="text-[10px] text-emerald-400 font-semibold tracking-wider block uppercase">Verdent Pet</span>
+                    <div class="h-16 bg-[#080B0F]/90 rounded-lg border border-white/5 p-2 flex items-center space-x-2">
+                        <span class="text-2xl">🍃</span>
+                        <div class="flex-1 space-y-1">
+                            <div class="h-1.5 bg-emerald-500/30 rounded w-1/2"></div>
+                            <div class="h-1.5 bg-white/10 rounded w-3/4"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h4 class="font-bold text-white text-base leading-snug">A Desktop Companion I Built in 7 Days</h4>
+                    <p class="mt-3 text-xs text-gray-400 leading-relaxed">
+                        She breathes, blinks, and Knows When My Code Is Compiling. Custom UI, system listener integration.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Case Card 3 -->
+            <div class="neon-card rounded-2xl overflow-hidden flex flex-col justify-between">
+                <!-- Mockup Banner Graphic -->
+                <div class="h-44 bg-gradient-to-br from-cyan-950/40 to-[#0B0F15] p-6 flex flex-col justify-between border-b border-white/5">
+                    <span class="text-[10px] text-cyan-400 font-semibold tracking-wider block uppercase">Google Ads Linker</span>
+                    <div class="h-16 bg-[#080B0F]/90 rounded-lg border border-white/5 p-3 flex items-center justify-between">
+                        <span class="text-xs font-bold text-white">G Ads</span>
+                        <span class="text-xs text-emerald-400">CONNECTED</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h4 class="font-bold text-white text-base leading-snug">From a Ticket to a Tool: Google Ads Data on Demand</h4>
+                    <p class="mt-3 text-xs text-gray-400 leading-relaxed">
+                        A growth lead sends one message to Verdent and replaces a multi-day data engineering bottleneck with a simple dashboard.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slider Pagination Control -->
+        <div class="mt-12 flex justify-end space-x-3">
+            <button class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 transition text-gray-400 hover:text-white">◀</button>
+            <button class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 transition text-gray-400 hover:text-white">▶</button>
+        </div>
+    </section>
+
+    <!-- 9. Section: 인사이트 및 업데이트 (Insights & Updates) -->
+    <section class="reveal max-w-6xl mx-auto px-6 py-24 border-t border-white/5">
+        <div class="mb-16 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+                <span class="text-xs text-emerald-400 font-semibold tracking-widest uppercase block">리소스</span>
+                <h2 class="text-3xl font-bold text-white mt-2">인사이트 및 업데이트</h2>
+            </div>
+            <a href="#" class="text-sm font-medium text-emerald-400 hover:text-emerald-300 flex items-center space-x-1">
+                <span>모든 포스트 보기</span>
+                <span>→</span>
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="group cursor-pointer">
+                <div class="h-48 bg-white/5 rounded-2xl border border-white/5 overflow-hidden transition group-hover:border-emerald-500/30"></div>
+                <h4 class="mt-4 font-bold text-white group-hover:text-emerald-400 transition text-sm">AI 에이전트를 이용한 비즈니스 자동화 설계 가이드</h4>
+                <p class="mt-2 text-xs text-gray-500">2026.06.15 • 5 min read</p>
+            </div>
+            <div class="group cursor-pointer">
+                <div class="h-48 bg-white/5 rounded-2xl border border-white/5 overflow-hidden transition group-hover:border-emerald-500/30"></div>
+                <h4 class="mt-4 font-bold text-white group-hover:text-emerald-400 transition text-sm">Slack 기반 업무 협업 시스템 구축 베스트 프랙티스</h4>
+                <p class="mt-2 text-xs text-gray-500">2026.06.10 • 4 min read</p>
+            </div>
+            <div class="group cursor-pointer">
+                <div class="h-48 bg-white/5 rounded-2xl border border-white/5 overflow-hidden transition group-hover:border-emerald-500/30"></div>
+                <h4 class="mt-4 font-bold text-white group-hover:text-emerald-400 transition text-sm">Verdent v2.4 롤아웃: 새로운 LLM 연동 방식 소개</h4>
+                <p class="mt-2 text-xs text-gray-500">2026.06.01 • 7 min read</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/5 bg-[#05070A] py-12">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center space-x-2 text-sm text-gray-500">
+                <span>🍃</span>
+                <span>© 2026 Verdent. All rights reserved.</span>
+            </div>
+            <div class="flex space-x-6 text-xs text-gray-500">
+                <a href="#" class="hover:text-white transition">이용약관</a>
+                <a href="#" class="hover:text-white transition">개인정보처리방침</a>
+                <a href="#" class="hover:text-white transition">문의하기</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript: Viewport Reveal Intersection Observer -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const reveals = document.querySelectorAll('.reveal');
+
+            const observerOptions = {
+                root: null, // 브라우저 뷰포트 기준
+                rootMargin: '0px 0px -100px 0px', // 스크롤 시 화면 하단에 진입하는 약 100px 시점에 트리거
+                threshold: 0.1 // 10% 이상 요소가 보일 때 실행
+            };
+
+            const revealOnScroll = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // 한번 표시된 요소는 다시 관찰할 필요가 없다면 아래 주석 해제
+                        // observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            reveals.forEach(reveal => {
+                revealOnScroll.observe(reveal);
+            });
+        });
+    </script>
+</body>
+</html>

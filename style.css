@@ -1,0 +1,621 @@
+/* ===== Reset & Base ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #0b0f10;
+    color: #b1b8ba;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ===== Layout ===== */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.section {
+    padding: 5rem 0;
+    border-bottom: 1px solid #151b1c;
+}
+.section:last-of-type {
+    border-bottom: none;
+}
+.section-dark {
+    background: #0b0f10;
+}
+.section-alt {
+    background: #12181a;
+}
+
+/* ===== Header ===== */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(11, 15, 16, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    /* 데스크톱 기본 스타일 */
+    display: flex;
+    flex-direction: row;
+    position: static;
+    padding: 0 2rem;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header .logo svg {
+    height: 32px;
+    width: auto;
+}
+
+.header .nav {
+            /* 데스크톱 기본 스타일 */
+    align-items: center;
+    gap: 2rem;
+            flex-direction: row;
+            position: static;
+            background: transparent;
+            padding: 0;
+}
+.header .nav a {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #9aa3a5;
+    transition: color 0.2s;
+}
+.header .nav a:hover {
+    color: #fff;
+}
+
+.header .nav .btn {
+    padding: 0.5rem 1.25rem;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.header .nav .btn-primary {
+    background: #f16726;
+    color: #fff;
+}
+.header .nav .btn-primary:hover {
+    background: #d64e0e;
+}
+
+.header .nav .btn-outline {
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+}
+.header .nav .btn-outline:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.header .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+.header .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: #fff;
+    border-radius: 2px;
+}
+
+/* ===== Hero ===== */
+.hero {
+    position: relative;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background-color: #0b0f10; /* Fallback background */
+}
+
+/* ===== Hero Carousel ===== */
+.hero-carousel {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.hero-carousel .carousel-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out; /* Smooth fade transition */
+}
+
+.hero-carousel .carousel-image.active {
+    opacity: 1;
+}
+
+.carousel-indicators {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 15; /* Above hero-content if needed, or just above carousel images */
+}
+
+.carousel-indicators .indicator {
+    width: 10px;
+    height: 10px;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.carousel-indicators .indicator.active {
+    background-color: #f16726; /* Accent color */
+}
+
+/* ===== Hero Canvas ===== */
+.hero-canvas-wrapper {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.hero-canvas-wrapper canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7;
+}
+
+.hero-canvas-wrapper .grad-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40%;
+    background: linear-gradient(to top, #0b0f10 0%, transparent 100%);
+    z-index: 2;
+}
+
+/* ===== Hero Content ===== */
+.hero-content {
+    position: relative;
+    z-index: 10;
+    padding: 6rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 600px;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(241, 103, 38, 0.12);
+    color: #f16726;
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    width: fit-content;
+    border: 1px solid rgba(241, 103, 38, 0.2);
+}
+
+.hero-badge .dot {
+    width: 6px;
+    height: 6px;
+    background: #f16726;
+    border-radius: 50%;
+    display: inline-block;
+    animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(0.8);
+    }
+}
+
+.hero h1 {
+    font-size: clamp(2.8rem, 6vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: #fff;
+}
+
+.hero h1 .highlight {
+    background: linear-gradient(135deg, #00BFFF, #A020F0); /* 하늘색 보라색 그라데이션으로 변경 */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    color: #9aa3a5;
+    max-width: 500px;
+}
+
+/* Typing effect cursor */
+#typing-effect::after {
+    content: '▋'; /* 블록 커서 모양 */
+    animation: blink 1s step-end infinite;
+    margin-left: 0.2em;
+    color: #f16726; /* 커서 색상 */
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.hero-actions .btn {
+    padding: 0.8rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.25s;
+}
+
+.hero-actions .btn-primary {
+    background: #f16726;
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(241, 103, 38, 0.3);
+}
+.hero-actions .btn-primary:hover {
+    background: #d64e0e;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(241, 103, 38, 0.4);
+}
+
+.hero-actions .btn-outline {
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+}
+.hero-actions .btn-outline:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.hero-stats {
+    display: flex;
+    gap: 3rem;
+    margin-top: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Apply to both hero and stats-banner numbers */
+.hero-stats .stat-number, .stats-banner .stat-number {
+    font-size: 1.8rem;
+    font-weight: 700;
+    opacity: 0; /* Initially hidden */
+    transition: opacity 0.5s ease-out; /* Smooth fade-in effect */
+    color: #fff;
+}
+/* Class to make the number visible and trigger fade-in */
+.hero-stats .stat-number.is-visible, .stats-banner .stat-number.is-visible {
+    opacity: 1;
+}
+
+.hero-stats .stat-label {
+    font-size: 0.85rem;
+    color: #5b7073;
+}
+
+/* Hero Content Wrapper for inline style removal */
+.hero-content-wrapper {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+}
+
+/* Section Title styles for inline style removal */
+.section-title .text-accent-style {
+    font-weight: 600; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase;
+}
+.section-title .title-lg-style {
+    margin-top: 0.5rem; color:#fff; font-size:2.5rem; font-weight:600;
+}
+
+/* ===== Features ===== */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.feature-card {
+    background: rgba(18, 24, 26, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 2rem 1.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(28, 35, 37, 0.5);
+    
+    /* Animation styles */
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out, border-color 0.3s;
+}
+
+.feature-card.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.feature-card:hover {
+    border-color: rgba(241, 103, 38, 0.5);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(241, 103, 38, 0.1);
+}
+
+.feature-card .icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+.feature-card h3 {
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+.feature-card p {
+    color: #9aa3a5;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* ===== Stats Banner ===== */
+.stats-banner {
+    position: relative; /* For pseudo-element positioning */
+    overflow: hidden; /* To contain the pseudo-element */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 2rem;
+    background: rgba(18, 24, 26, 0.5); /* Semi-transparent background */
+    backdrop-filter: blur(12px); /* Blur effect */
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid #1c2325;
+    border-radius: 16px;
+    padding: 3rem 2rem;
+    margin: 2rem 0;
+}
+
+/* Animated wave background */
+.stats-banner::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: -1;
+    background: 
+        radial-gradient(circle at 30% 107%, rgba(241, 103, 38, 0.25) 0%, transparent 55%), /* Increased opacity and size */
+        radial-gradient(circle at 70% -7%, rgba(0, 191, 255, 0.15) 0%, transparent 50%); /* Increased opacity and size */
+    background-size: 200% 200%;
+    animation: wave-animation 20s ease-in-out infinite; /* Slower animation */
+}
+
+@keyframes wave-animation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.stats-banner .stat-item {
+    text-align: center;
+}
+/* Ensure font-size is correctly applied to stats-banner numbers */
+.stats-banner .stat-number {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #fff;
+}
+.stats-banner .label {
+    font-size: 0.85rem;
+    color: #5b7073;
+    margin-top: 0.25rem;
+}
+
+/* ===== CTA ===== */
+.cta-section {
+    background: linear-gradient(135deg, #12181a 0%, #1a2326 100%);
+    border-radius: 16px;
+    padding: 4rem 3rem;
+    text-align: center;
+    border: 1px solid #1c2325;
+    max-width: 800px; /* Added to constrain width of the card */
+    margin: 2rem auto; /* Centers the block element horizontally and sets top margin */
+}
+.cta-section {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.cta-section h2 {
+    font-size: 2.2rem;
+    color: #fff;
+    margin-bottom: 1rem;
+}
+.cta-section p {
+    color: #9aa3a5;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    font-size: 1.1rem;
+}
+
+.cta-section .btn {
+    padding: 0.9rem 2.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    background: #f16726;
+    color: #fff;
+    transition: all 0.25s;
+}
+
+.cta-section.is-visible {
+    opacity: 1;
+    /* Removed display: inline-block; to allow margin: auto for centering */
+}
+.cta-section .btn:hover {
+    background: #d64e0e;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(241, 103, 38, 0.3);
+}
+
+/* ===== Footer ===== */
+.footer {
+    padding: 3rem 0;
+    border-top: 1px solid #151b1c;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.footer .links {
+    display: flex;
+    gap: 2rem;
+}
+.footer .links a {
+    font-size: 0.85rem;
+    color: #5b7073;
+    transition: color 0.2s;
+}
+.footer .links a:hover {
+    color: #fff;
+}
+.footer .copyright {
+    font-size: 0.8rem;
+    color: #3d4f52;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+    .hero-content {
+        padding: 4rem 0;
+    }
+    .hero-stats {
+        gap: 2rem;
+    }
+            /* 데스크톱에서는 햄버거 메뉴 숨김 */
+            .header .hamburger {
+                display: none;
+            }
+            /* 데스크톱에서는 .nav.is-open 클래스가 적용되어도 기본 데스크톱 스타일 유지 */
+            .header .nav.is-open {
+                border-bottom: none; /* 모바일에서 적용된 border-bottom 제거 */
+            }
+}
+
+@media (max-width: 768px) {
+    .header .nav {
+        display: none;
+    }
+    .header .hamburger {
+        display: flex;
+    }
+    .header .nav.is-open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: #0b0f10;
+        padding: 2rem;
+        gap: 1.5rem;
+                border-bottom: 1px solid #1c2325; /* 모바일 메뉴 하단 보더 */
+    }
+
+    .hero {
+        min-height: auto;
+    }
+    .hero-content {
+        padding: 3rem 0;
+    }
+    .hero h1 {
+        font-size: 2.8rem;
+    }
+    .hero-stats {
+        flex-wrap: wrap;
+        gap: 1.5rem;
+    }
+
+    .section {
+        padding: 3rem 0;
+    }
+    .cta-section {
+        padding: 2.5rem 1.5rem;
+    }
+    .footer {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+    }
+    .stats-banner {
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        padding: 2rem 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 1.25rem;
+    }
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+    .hero-stats {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+    }
+    .stats-banner {
+        grid-template-columns: 1fr;
+    }
+}
